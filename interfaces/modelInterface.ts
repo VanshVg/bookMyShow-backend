@@ -11,6 +11,7 @@ export interface usersAttributes {
   password: string;
   is_active?: boolean;
   verification_token?: string;
+  reset_token?: string;
   deletedAt?: Date | null;
   createdAt?: Date;
   updatedAt?: Date;

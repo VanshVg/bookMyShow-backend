@@ -40,6 +40,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      reset_token: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       deletedAt: {
         allowNull: true,
         type: Sequelize.DATE,
@@ -56,7 +60,7 @@ module.exports = {
       },
     });
   },
-  async down(queryInterface: QueryInterface, Sequelize: typeof DataTypes) {
+  async down(queryInterface: QueryInterface) {
     await queryInterface.dropTable("Users");
   },
 };

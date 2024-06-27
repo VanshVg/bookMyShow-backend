@@ -2,12 +2,12 @@ import { Request, Response } from "express";
 import { Result, ValidationError, validationResult } from "express-validator";
 import argon2 from "argon2";
 import randomstring from "randomstring";
+import { Op } from "sequelize";
 
 import { usersAttributes } from "../interfaces/modelInterface";
 import db from "../config/dbConnect";
 import { sendResponse } from "../helpers/response";
 import User from "../database/models/User";
-import { generateToken } from "../helpers/generateToken";
 
 const userModel = db.User;
 
@@ -28,16 +28,10 @@ export const register = async (req: Request, res: Response): Promise<Response> =
       const createdDate: Date = isEmail.createdAt;
       const currentTime: Date = new Date();
       if ((currentTime.valueOf() - createdDate.valueOf()) / (1000 * 60 * 60) > 1) {
-        const deleteUser: [affectedRows: number] = await userModel.update(
-          { deletedAt: new Date() },
-          { where: { email_id: email_id } }
-        );
-        if (!deleteUser) {
-          return sendResponse(res, "", "Something went wrong", "server", 500);
-        }
+        await userModel.update({ deletedAt: new Date() }, { where: { email_id: email_id } });
       }
       if (isEmail.is_active && isEmail.deletedAt === null) {
-        return sendResponse(res, "", "Email id already exists", "conflict", 409);
+        return sendResponse(res, "", "Email id already exists", "email_conflict", 409);
       }
     }
 
@@ -49,16 +43,10 @@ export const register = async (req: Request, res: Response): Promise<Response> =
       const createdDate: Date = isContactNo.createdAt;
       const currentTime: Date = new Date();
       if ((currentTime.valueOf() - createdDate.valueOf()) / (1000 * 60 * 60) > 1) {
-        const deleteUser: [affectedRows: number] = await userModel.update(
-          { deletedAt: new Date() },
-          { where: { contact_no: contact_no } }
-        );
-        if (!deleteUser) {
-          return sendResponse(res, "", "Something went wrong", "server", 500);
-        }
+        await userModel.update({ deletedAt: new Date() }, { where: { contact_no: contact_no } });
       }
       if (isContactNo.is_active && isContactNo.deletedAt === null) {
-        return sendResponse(res, "", "Mobile number already exists", "conflict", 409);
+        return sendResponse(res, "", "Mobile number already exists", "contact_conflict", 409);
       }
     }
 
@@ -67,7 +55,6 @@ export const register = async (req: Request, res: Response): Promise<Response> =
       length: 10,
       charset: "alphanumeric",
     });
-    const token: string = generateToken(first_name, last_name, email_id, contact_no);
 
     const createUser: User = await userModel.create({
       first_name: first_name,
@@ -82,8 +69,39 @@ export const register = async (req: Request, res: Response): Promise<Response> =
       return sendResponse(res, "", "Something went wrong", "server", 500);
     }
 
-    res.cookie("token", token, { maxAge: 1036800000, httpOnly: true });
     return sendResponse(res, verificationToken, "Register Successful", "success", 200);
+  } catch (error) {
+    return sendResponse(res, "", "Something went wrong", "server", 500);
+  }
+};
+
+export const activateAccount = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const { token } = req.params;
+
+    const isvalid: User | null = await userModel.findOne({
+      where: {
+        [Op.and]: [{ verification_token: token }, { deletedAt: null }],
+      },
+    });
+    if (isvalid === null) {
+      return sendResponse(res, "", "User isn't authorised to access this page", "forbidden", 403);
+    }
+
+    if (isvalid.is_active) {
+      return sendResponse(res, "", "Account is already activated", "conflict", 409);
+    }
+
+    await userModel.update(
+      { is_active: true },
+      {
+        where: {
+          [Op.and]: [{ verification_token: token }, { deletedAt: null }],
+        },
+      }
+    );
+
+    return sendResponse(res, "", "Account activation successful", "success", 200);
   } catch (error) {
     return sendResponse(res, "", "Something went wrong", "server", 500);
   }
