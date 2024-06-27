@@ -13,6 +13,7 @@ export interface usersAttributes {
   verification_token?: string;
   reset_token?: string;
   reset_time?: Date | null;
+  role: "admin" | "user" | "organizer";
   deletedAt?: Date | null;
   createdAt?: Date;
   updatedAt?: Date;

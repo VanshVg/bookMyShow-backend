@@ -72,6 +72,12 @@ class User extends Model<usersAttributes, userCreationAttributes> {
     allowNull: true,
   })
   declare reset_time: Date;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  declare role: "admin" | "user" | "organizer";
 }
 
 export default User;

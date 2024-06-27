@@ -19,7 +19,8 @@ export const register = async (req: Request, res: Response): Promise<Response> =
       return sendResponse(res, "", "Invalid payload", "payload", 400);
     }
 
-    const { first_name, last_name, email_id, contact_no, password }: usersAttributes = req.body;
+    const { first_name, last_name, email_id, contact_no, password, role }: usersAttributes =
+      req.body;
 
     const isEmail: User | null = await userModel.findOne({
       where: { email_id: email_id },
@@ -73,6 +74,7 @@ export const register = async (req: Request, res: Response): Promise<Response> =
       password: hashedPassword,
       is_active: false,
       verification_token: verificationToken,
+      role: role,
     });
     if (!createUser.dataValues.id) {
       return sendResponse(res, "", "Something went wrong", "server", 500);
@@ -143,7 +145,8 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
       findUser.first_name,
       findUser.last_name,
       findUser.email_id,
-      findUser.contact_no
+      findUser.contact_no,
+      findUser.role
     );
 
     res.cookie("token", token, { maxAge: 1036800000, httpOnly: true });

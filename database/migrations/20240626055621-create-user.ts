@@ -48,6 +48,10 @@ module.exports = {
         allowNull: true,
         type: Sequelize.DATE,
       },
+      role: {
+        type: Sequelize.STRING,
+        defaultValue: "user",
+      },
       deletedAt: {
         allowNull: true,
         type: Sequelize.DATE,

@@ -21,6 +21,7 @@ module.exports = {
           password: "Vansh@123",
           is_active: 1,
           verification_token: "Token1",
+          role: "admin",
         },
         {
           first_name: "Lionel",
@@ -30,6 +31,7 @@ module.exports = {
           password: "Messi@123",
           is_active: 1,
           verification_token: "Token2",
+          role: "admin",
         },
         {
           first_name: "Pedri",
@@ -39,6 +41,7 @@ module.exports = {
           password: "Pedri@123",
           is_active: 1,
           verification_token: "Token3",
+          role: "organizer",
         },
         {
           first_name: "Lamine",
@@ -48,6 +51,7 @@ module.exports = {
           password: "Lamine@123",
           is_active: 1,
           verification_token: "Token4",
+          role: "user",
         },
         {
           first_name: "Pablo",
@@ -55,8 +59,19 @@ module.exports = {
           email_id: "gavi@gmail.com",
           contact_no: 9281728233,
           password: "Gavi@123",
-          is_active: 0,
+          is_active: 1,
           verification_token: "Token5",
+          role: "organizer",
+        },
+        {
+          first_name: "Pau",
+          last_name: "Cubarasi",
+          email_id: "cubarasi@gmail.com",
+          contact_no: 9281777233,
+          password: "Cubarasi@123",
+          is_active: 1,
+          verification_token: "Token5",
+          role: "user",
         },
       ],
       {}
