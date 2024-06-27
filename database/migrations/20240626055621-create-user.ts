@@ -44,6 +44,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      reset_time: {
+        allowNull: true,
+        type: Sequelize.DATE,
+      },
       deletedAt: {
         allowNull: true,
         type: Sequelize.DATE,

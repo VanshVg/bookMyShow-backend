@@ -34,3 +34,7 @@ export const loginValidator: ValidationChain[] = [
     .isLength({ min: 6 })
     .withMessage("Password must be at least 6 characters long...!!"),
 ];
+
+export const verifyAccountValidator: ValidationChain[] = [
+  body("username").notEmpty().withMessage("Username can't be empty."),
+];

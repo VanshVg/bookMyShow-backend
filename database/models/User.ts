@@ -2,7 +2,8 @@ import { AutoIncrement, Column, DataType, Model, PrimaryKey, Table } from "seque
 import { usersAttributes } from "../../interfaces/modelInterface";
 import { Optional } from "sequelize";
 
-interface userCreationAttributes extends Optional<usersAttributes, "id" | "reset_token"> {}
+interface userCreationAttributes
+  extends Optional<usersAttributes, "id" | "reset_token" | "reset_time"> {}
 
 @Table({
   timestamps: true,
@@ -65,6 +66,12 @@ class User extends Model<usersAttributes, userCreationAttributes> {
     allowNull: true,
   })
   declare reset_token: string;
+
+  @Column({
+    type: DataType.DATE,
+    allowNull: true,
+  })
+  declare reset_time: Date;
 }
 
 export default User;

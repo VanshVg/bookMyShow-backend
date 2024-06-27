@@ -152,3 +152,39 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
     return sendResponse(res, "", "Something went wrong", "server", 500);
   }
 };
+
+export const verifyAccount = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const errors: Result<ValidationError> = validationResult(req);
+    if (!errors.isEmpty()) {
+      return sendResponse(res, "", "Invalid payload", "payload", 400);
+    }
+
+    const { username }: { username: string } = req.body;
+
+    const findUser = await userModel.findOne({
+      where: { [Op.or]: [{ contact_no: username }, { email_id: username }] },
+    });
+    if (findUser === null) {
+      return sendResponse(res, "", "Invalid Credentials", "unauthorised", 401);
+    }
+
+    if (!findUser.is_active) {
+      return sendResponse(res, "", "Account isn't activated", "forbidden", 403);
+    }
+
+    const resetToken: string = randomstring.generate({
+      length: 10,
+      charset: "alphanumeric",
+    });
+
+    await userModel.update(
+      { reset_token: resetToken, reset_time: new Date() },
+      { where: { id: findUser.id } }
+    );
+
+    return sendResponse(res, resetToken, "Account is verified", "success", 200);
+  } catch (error) {
+    return sendResponse(res, "", "Something went wrong", "server", 500);
+  }
+};
