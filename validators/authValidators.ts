@@ -18,7 +18,16 @@ export const registerValidator: ValidationChain[] = [
     .withMessage("Please provide a valid email address")
     .isEmail()
     .withMessage("Invalid email...!!"),
-  body("contact_no").notEmpty().withMessage("Username can't be empty."),
+  body("contact_no").notEmpty().withMessage("Contact No. can't be empty."),
+  body("password")
+    .notEmpty()
+    .withMessage("Password can't be empty")
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters long...!!"),
+];
+
+export const loginValidator: ValidationChain[] = [
+  body("username").notEmpty().withMessage("Username can't be empty."),
   body("password")
     .notEmpty()
     .withMessage("Password can't be empty")
