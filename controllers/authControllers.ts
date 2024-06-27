@@ -162,8 +162,13 @@ export const verifyAccount = async (req: Request, res: Response): Promise<Respon
 
     const { username }: { username: string } = req.body;
 
-    const findUser = await userModel.findOne({
-      where: { [Op.or]: [{ contact_no: username }, { email_id: username }] },
+    const findUser: User | null = await userModel.findOne({
+      where: {
+        [Op.and]: [
+          { [Op.or]: [{ contact_no: username }, { email_id: username }] },
+          { deletedAt: null },
+        ],
+      },
     });
     if (findUser === null) {
       return sendResponse(res, "", "Invalid Credentials", "unauthorised", 401);
@@ -184,6 +189,54 @@ export const verifyAccount = async (req: Request, res: Response): Promise<Respon
     );
 
     return sendResponse(res, resetToken, "Account is verified", "success", 200);
+  } catch (error) {
+    return sendResponse(res, "", "Something went wrong", "server", 500);
+  }
+};
+
+export const verifyResetToken = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const { token } = req.params;
+    const findUser: User | null = await userModel.findOne({
+      where: { [Op.and]: [{ reset_token: token }, { deletedAt: null }] },
+    });
+    if (findUser === null) {
+      return sendResponse(res, "", "User isn't authorised to access this page", "forbidden", 403);
+    }
+
+    const resetDate: Date = findUser.reset_time;
+    const currentTime: Date = new Date();
+    const expireTime: number = (currentTime.valueOf() - resetDate.valueOf()) / (1000 * 60 * 60);
+    if (expireTime > 1) {
+      return sendResponse(res, "", "Session is expired", "forbidden", 401);
+    }
+
+    return sendResponse(res, "", "Reset token is verified", "success", 200);
+  } catch (error) {
+    return sendResponse(res, "", "Something went wrong", "server", 500);
+  }
+};
+
+export const resetPassword = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const errors: Result<ValidationError> = validationResult(req);
+    if (!errors.isEmpty()) {
+      return sendResponse(res, "", "Invalid payload", "payload", 400);
+    }
+
+    const { password }: { password: string } = req.body;
+    const { token } = req.params;
+
+    const hashedPassword: string = await argon2.hash(password);
+
+    await userModel.update(
+      { password: hashedPassword },
+      {
+        where: { [Op.and]: [{ reset_token: token }, { deletedAt: null }] },
+      }
+    );
+
+    return sendResponse(res, "", "Password reset successful", "success", 200);
   } catch (error) {
     return sendResponse(res, "", "Something went wrong", "server", 500);
   }
