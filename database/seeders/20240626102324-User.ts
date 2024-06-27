@@ -4,14 +4,9 @@ import { QueryInterface, DataTypes } from "sequelize";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface: QueryInterface, Sequelize: typeof DataTypes) {
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     */
+  async up(queryInterface: QueryInterface) {
     await queryInterface.bulkInsert(
-      "Users",
+      "users",
       [
         {
           first_name: "Vansh",
@@ -79,11 +74,6 @@ module.exports = {
   },
 
   async down(queryInterface: QueryInterface, Sequelize: typeof DataTypes) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     */
     await queryInterface.bulkDelete("Users", {});
   },
 };

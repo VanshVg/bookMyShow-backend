@@ -1,13 +1,24 @@
-import { AutoIncrement, Column, DataType, Model, PrimaryKey, Table } from "sequelize-typescript";
+import {
+  AutoIncrement,
+  BelongsTo,
+  BelongsToMany,
+  Column,
+  DataType,
+  Model,
+  PrimaryKey,
+  Table,
+} from "sequelize-typescript";
 import { usersAttributes } from "../../interfaces/modelInterface";
 import { Optional } from "sequelize";
+import Event from "./Event";
+import UserEvent from "./UserEvent";
 
 interface userCreationAttributes
   extends Optional<usersAttributes, "id" | "reset_token" | "reset_time"> {}
 
 @Table({
   timestamps: true,
-  tableName: "Users",
+  tableName: "users",
   paranoid: true,
 })
 class User extends Model<usersAttributes, userCreationAttributes> {
@@ -78,6 +89,9 @@ class User extends Model<usersAttributes, userCreationAttributes> {
     allowNull: true,
   })
   declare role: "admin" | "user" | "organizer";
+
+  @BelongsToMany(() => Event, () => UserEvent)
+  declare events: Event[];
 }
 
 export default User;
