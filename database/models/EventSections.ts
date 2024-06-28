@@ -1,6 +1,8 @@
 import { CreationOptional, Optional } from "sequelize";
+import { eventSectionAttributes } from "../../interfaces/modelInterface";
 import {
   AutoIncrement,
+  BelongsTo,
   Column,
   CreatedAt,
   DataType,
@@ -11,18 +13,16 @@ import {
   Table,
   UpdatedAt,
 } from "sequelize-typescript";
-
-import { userEventAttributes } from "../../interfaces/modelInterface";
-import User from "./User";
 import Event from "./Event";
 
-interface userEventCreationAttributes extends Optional<userEventAttributes, "id"> {}
+interface eventSectionCreationAttributes extends Optional<eventSectionAttributes, "id"> {}
 
 @Table({
-  timestamps: false,
-  tableName: "user_events",
+  timestamps: true,
+  tableName: "event_sections",
+  paranoid: true,
 })
-class UserEvent extends Model<userEventAttributes, userEventCreationAttributes> {
+class EventSection extends Model<eventSectionAttributes, eventSectionCreationAttributes> {
   @PrimaryKey
   @AutoIncrement
   @Column({
@@ -31,12 +31,11 @@ class UserEvent extends Model<userEventAttributes, userEventCreationAttributes> 
   })
   declare id: number;
 
-  @ForeignKey(() => User)
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.STRING,
     allowNull: false,
   })
-  declare organizer_id: number;
+  declare name: string;
 
   @ForeignKey(() => Event)
   @Column({
@@ -44,6 +43,12 @@ class UserEvent extends Model<userEventAttributes, userEventCreationAttributes> 
     allowNull: false,
   })
   declare event_id: number;
+
+  @Column({
+    type: DataType.FLOAT,
+    allowNull: false,
+  })
+  declare price: number;
 
   @DeletedAt
   declare deletedAt: Date | null;
@@ -53,6 +58,9 @@ class UserEvent extends Model<userEventAttributes, userEventCreationAttributes> 
 
   @UpdatedAt
   declare updatedAt: CreationOptional<Date>;
+
+  @BelongsTo(() => Event, "event_id")
+  declare events: Event;
 }
 
-export default UserEvent;
+export default EventSection;

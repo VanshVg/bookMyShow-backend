@@ -1,33 +1,28 @@
 import { CreationOptional, Optional } from "sequelize";
-import { eventAttributes } from "../../interfaces/modelInterface";
+import { moviesAttributes } from "../../interfaces/modelInterface";
 import {
   AutoIncrement,
-  BelongsTo,
   BelongsToMany,
   Column,
   CreatedAt,
   DataType,
   DeletedAt,
-  ForeignKey,
-  HasMany,
   Model,
   PrimaryKey,
   Table,
   UpdatedAt,
 } from "sequelize-typescript";
-import User from "./User";
-import UserEvent from "./UserEvent";
-import EventTypes from "./EventType";
-import EventSection from "./EventSections";
+import Theatre from "./Theatre";
+import TheatreMovie from "./TheatreMovie";
 
-interface eventCreationAttributes extends Optional<eventAttributes, "id"> {}
+interface moviesCreationAttributes extends Optional<moviesAttributes, "id"> {}
 
 @Table({
   timestamps: true,
-  tableName: "events",
+  tableName: "movies",
   paranoid: true,
 })
-class Event extends Model<eventAttributes, eventCreationAttributes> {
+class Movie extends Model<moviesAttributes, moviesCreationAttributes> {
   @PrimaryKey
   @AutoIncrement
   @Column({
@@ -48,30 +43,23 @@ class Event extends Model<eventAttributes, eventCreationAttributes> {
   })
   declare description: string;
 
-  @ForeignKey(() => EventTypes)
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.STRING,
     allowNull: false,
   })
-  declare type_id: number;
+  declare genre: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  declare address: string;
+  declare run_time: string;
 
   @Column({
     type: DataType.DATE,
     allowNull: false,
   })
-  declare start_time: Date;
-
-  @Column({
-    type: DataType.DATE,
-    allowNull: false,
-  })
-  declare end_time: Date;
+  declare release_date: Date;
 
   @DeletedAt
   declare deletedAt: Date | null;
@@ -82,14 +70,8 @@ class Event extends Model<eventAttributes, eventCreationAttributes> {
   @UpdatedAt
   declare updatedAt: CreationOptional<Date>;
 
-  @BelongsTo(() => EventTypes, "type_id")
-  declare eventTypes: EventTypes;
-
-  @BelongsToMany(() => User, () => UserEvent)
-  declare users: User[];
-
-  @HasMany(() => EventSection, "event_id")
-  declare eventSections: EventSection[];
+  @BelongsToMany(() => Theatre, () => TheatreMovie)
+  declare theatres: Theatre[];
 }
 
-export default Event;
+export default Movie;

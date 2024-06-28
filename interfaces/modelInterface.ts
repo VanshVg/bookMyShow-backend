@@ -40,4 +40,45 @@ export interface userEventAttributes {
 export interface eventTypesAttributes {
   id: number;
   type: string;
+  deletedAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface eventSectionAttributes {
+  id: number;
+  name: string;
+  event_id: number;
+  price: number;
+  deletedAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface moviesAttributes {
+  id: number;
+  name: string;
+  description: string;
+  run_time: string;
+  release_date: Date;
+  deletedAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface theatresAttributes {
+  id: number;
+  name: string;
+  owner_id: string;
+  address: string;
+  screens: number;
+  deletedAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface theatreMoviesAttributes {
+  id: number;
+  theatre_id: number;
+  movie_id: number;
 }

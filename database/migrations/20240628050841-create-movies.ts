@@ -5,52 +5,27 @@ import { QueryInterface, DataTypes } from "sequelize";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface: QueryInterface, Sequelize: typeof DataTypes) {
-    await queryInterface.createTable("users", {
+    await queryInterface.createTable("movies", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      first_name: {
+      name: {
         type: Sequelize.STRING,
-        allowNull: false,
       },
-      last_name: {
+      description: {
         type: Sequelize.STRING,
-        allowNull: false,
       },
-      email_id: {
+      genre: {
         type: Sequelize.STRING,
-        allowNull: false,
       },
-      contact_no: {
+      run_time: {
         type: Sequelize.STRING,
-        allowNull: false,
       },
-      password: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      is_active: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-      },
-      verification_token: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      reset_token: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      reset_time: {
-        allowNull: true,
+      release_date: {
         type: Sequelize.DATE,
-      },
-      role: {
-        type: Sequelize.STRING,
-        defaultValue: "user",
       },
       deletedAt: {
         allowNull: true,
@@ -59,16 +34,14 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: new Date(),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: new Date(),
       },
     });
   },
   async down(queryInterface: QueryInterface) {
-    await queryInterface.dropTable("users");
+    await queryInterface.dropTable("movies");
   },
 };

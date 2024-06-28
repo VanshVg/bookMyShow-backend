@@ -1,14 +1,16 @@
-import { Optional } from "sequelize";
+import { CreationOptional, Optional } from "sequelize";
 import { eventTypesAttributes } from "../../interfaces/modelInterface";
 import {
   AutoIncrement,
-  BelongsTo,
   Column,
+  CreatedAt,
   DataType,
+  DeletedAt,
   HasMany,
   Model,
   PrimaryKey,
   Table,
+  UpdatedAt,
 } from "sequelize-typescript";
 import Event from "./Event";
 
@@ -32,6 +34,15 @@ class EventTypes extends Model<eventTypesAttributes, eventTypeCreationAttributes
     allowNull: false,
   })
   declare type: string;
+
+  @DeletedAt
+  declare deletedAt: Date | null;
+
+  @CreatedAt
+  declare createdAt: CreationOptional<Date>;
+
+  @UpdatedAt
+  declare updatedAt: CreationOptional<Date>;
 
   @HasMany(() => Event, "type_id")
   declare events: Event[];

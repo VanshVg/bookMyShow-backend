@@ -1,20 +1,28 @@
 import {
   AutoIncrement,
-  BelongsTo,
   BelongsToMany,
   Column,
+  CreatedAt,
   DataType,
+  DeletedAt,
+  HasMany,
   Model,
   PrimaryKey,
   Table,
+  UpdatedAt,
 } from "sequelize-typescript";
+import { CreationOptional, Optional } from "sequelize";
+
 import { usersAttributes } from "../../interfaces/modelInterface";
-import { Optional } from "sequelize";
 import Event from "./Event";
 import UserEvent from "./UserEvent";
+import Theatre from "./Theatre";
 
 interface userCreationAttributes
-  extends Optional<usersAttributes, "id" | "reset_token" | "reset_time"> {}
+  extends Optional<
+    usersAttributes,
+    "id" | "reset_token" | "reset_time" | "createdAt" | "updatedAt"
+  > {}
 
 @Table({
   timestamps: true,
@@ -90,8 +98,20 @@ class User extends Model<usersAttributes, userCreationAttributes> {
   })
   declare role: "admin" | "user" | "organizer";
 
+  @DeletedAt
+  declare deletedAt: Date | null;
+
+  @CreatedAt
+  declare createdAt: CreationOptional<Date>;
+
+  @UpdatedAt
+  declare updatedAt: CreationOptional<Date>;
+
   @BelongsToMany(() => Event, () => UserEvent)
   declare events: Event[];
+
+  @HasMany(() => Theatre, "owner_id")
+  declare theatres: Theatre[];
 }
 
 export default User;
