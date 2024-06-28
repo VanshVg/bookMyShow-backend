@@ -1,5 +1,5 @@
 import { Optional } from "sequelize";
-import { theatreMoviesAttributes } from "../../interfaces/modelInterface";
+import { TheatreMoviesAttributes } from "../../interfaces/modelInterface";
 import {
   AutoIncrement,
   Column,
@@ -12,14 +12,14 @@ import {
 import Theatre from "./Theatre";
 import Movie from "./Movie";
 
-interface theatreMoviesCreationAttributes extends Optional<theatreMoviesAttributes, "id"> {}
+interface TheatreMoviesCreationAttributes extends Optional<TheatreMoviesAttributes, "id"> {}
 
 @Table({
   timestamps: false,
   tableName: "theatre_movies",
   paranoid: false,
 })
-class TheatreMovie extends Model<theatreMoviesAttributes, theatreMoviesCreationAttributes> {
+class TheatreMovie extends Model<TheatreMoviesAttributes, TheatreMoviesCreationAttributes> {
   @PrimaryKey
   @AutoIncrement
   @Column({

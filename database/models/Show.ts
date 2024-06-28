@@ -1,33 +1,31 @@
 import { CreationOptional, Optional } from "sequelize";
+import { ShowsAttributes } from "../../interfaces/modelInterface";
 import {
   AutoIncrement,
   BelongsTo,
-  BelongsToMany,
   Column,
   CreatedAt,
   DataType,
   DeletedAt,
+  ForeignKey,
   HasMany,
   Model,
   PrimaryKey,
   Table,
   UpdatedAt,
 } from "sequelize-typescript";
-
-import { TheatresAttributes } from "../../interfaces/modelInterface";
-import User from "./User";
 import Movie from "./Movie";
-import TheatreMovie from "./TheatreMovie";
 import Screen from "./Screen";
+import Seat from "./Seats";
 
-interface TheatresCreationAttributes extends Optional<TheatresAttributes, "id"> {}
+interface ShowsCreationAttributes extends Optional<ShowsAttributes, "id"> {}
 
 @Table({
   timestamps: false,
-  tableName: "theatre",
+  tableName: "screen_shows",
   paranoid: true,
 })
-class Theatre extends Model<TheatresAttributes, TheatresCreationAttributes> {
+class Shows extends Model<ShowsAttributes, ShowsCreationAttributes> {
   @PrimaryKey
   @AutoIncrement
   @Column({
@@ -36,29 +34,31 @@ class Theatre extends Model<TheatresAttributes, TheatresCreationAttributes> {
   })
   declare id: number;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  declare name: string;
-
+  @ForeignKey(() => Screen)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
-  declare owner_id: number;
+  declare screen_id: number;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  declare address: string;
-
+  @ForeignKey(() => Movie)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
-  declare screens: number;
+  declare movie_id: number;
+
+  @Column({
+    type: DataType.DATE,
+    allowNull: false,
+  })
+  declare start_time: Date;
+
+  @Column({
+    type: DataType.DATE,
+    allowNull: false,
+  })
+  declare end_time: Date;
 
   @DeletedAt
   declare deletedAt: Date | null;
@@ -69,14 +69,14 @@ class Theatre extends Model<TheatresAttributes, TheatresCreationAttributes> {
   @UpdatedAt
   declare updatedAt: CreationOptional<Date>;
 
-  @BelongsTo(() => User, "owner_id")
-  declare users: User;
+  @BelongsTo(() => Screen, "screen_id")
+  declare screens: Screen;
 
-  @BelongsToMany(() => Movie, () => TheatreMovie)
-  declare movies: Movie[];
+  @BelongsTo(() => Movie, "movie_id")
+  declare movies: Movie;
 
-  @HasMany(() => Screen, "theatre_id")
-  declare theatre_screens: Screen[];
+  @HasMany(() => Seat, "show_id")
+  declare seats: Seat[];
 }
 
-export default Theatre;
+export default Shows;

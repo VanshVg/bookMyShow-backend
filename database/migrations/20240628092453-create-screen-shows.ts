@@ -5,28 +5,32 @@ import { QueryInterface, DataTypes } from "sequelize";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface: QueryInterface, Sequelize: typeof DataTypes) {
-    await queryInterface.createTable("theatres", {
+    await queryInterface.createTable("shows", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      name: {
-        type: Sequelize.STRING,
-      },
-      owner_id: {
-        type: Sequelize.INTEGER,
+      screen_id: {
+        type: Sequelize.NUMBER,
         references: {
-          model: "users",
+          model: "screens",
           key: "id",
         },
       },
-      address: {
-        type: Sequelize.STRING,
-      },
-      screens: {
+      movie_id: {
         type: Sequelize.NUMBER,
+        references: {
+          model: "movies",
+          key: "id",
+        },
+      },
+      start_time: {
+        type: Sequelize.DATE,
+      },
+      end_time: {
+        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: false,
@@ -39,6 +43,6 @@ module.exports = {
     });
   },
   async down(queryInterface: QueryInterface) {
-    await queryInterface.dropTable("theatres");
+    await queryInterface.dropTable("shows");
   },
 };

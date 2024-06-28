@@ -1,12 +1,13 @@
 import { CreationOptional, Optional } from "sequelize";
-import { MoviesAttributes } from "../../interfaces/modelInterface";
+import { ScreensAttributes } from "../../interfaces/modelInterface";
 import {
   AutoIncrement,
-  BelongsToMany,
+  BelongsTo,
   Column,
   CreatedAt,
   DataType,
   DeletedAt,
+  ForeignKey,
   HasMany,
   Model,
   PrimaryKey,
@@ -14,17 +15,16 @@ import {
   UpdatedAt,
 } from "sequelize-typescript";
 import Theatre from "./Theatre";
-import TheatreMovie from "./TheatreMovie";
 import Shows from "./Show";
 
-interface MoviesCreationAttributes extends Optional<MoviesAttributes, "id"> {}
+interface ScreensCreationAttributes extends Optional<ScreensAttributes, "id"> {}
 
 @Table({
   timestamps: true,
-  tableName: "movies",
+  tableName: "theatre_screens",
   paranoid: true,
 })
-class Movie extends Model<MoviesAttributes, MoviesCreationAttributes> {
+class Screen extends Model<ScreensAttributes, ScreensCreationAttributes> {
   @PrimaryKey
   @AutoIncrement
   @Column({
@@ -39,29 +39,18 @@ class Movie extends Model<MoviesAttributes, MoviesCreationAttributes> {
   })
   declare name: string;
 
+  @ForeignKey(() => Theatre)
   @Column({
-    type: DataType.STRING,
+    type: DataType.INTEGER,
     allowNull: false,
   })
-  declare description: string;
+  declare theatre_id: number;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.INTEGER,
     allowNull: false,
   })
-  declare genre: string;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  declare run_time: string;
-
-  @Column({
-    type: DataType.DATE,
-    allowNull: false,
-  })
-  declare release_date: Date;
+  declare seats: number;
 
   @DeletedAt
   declare deletedAt: Date | null;
@@ -72,11 +61,11 @@ class Movie extends Model<MoviesAttributes, MoviesCreationAttributes> {
   @UpdatedAt
   declare updatedAt: CreationOptional<Date>;
 
-  @BelongsToMany(() => Theatre, () => TheatreMovie)
+  @BelongsTo(() => Theatre, "theatre_id")
   declare theatres: Theatre[];
 
-  @HasMany(() => Shows, "movie_id")
+  @HasMany(() => Shows, "screen_id")
   declare shows: Shows[];
 }
 
-export default Movie;
+export default Screen;

@@ -4,7 +4,7 @@ import argon2 from "argon2";
 import randomstring from "randomstring";
 import { Op } from "sequelize";
 
-import { usersAttributes } from "../interfaces/modelInterface";
+import { UsersAttributes } from "../interfaces/modelInterface";
 import db from "../config/dbConnect";
 import { sendResponse } from "../helpers/response";
 import User from "../database/models/User";
@@ -19,7 +19,7 @@ export const register = async (req: Request, res: Response): Promise<Response> =
       return sendResponse(res, "", "Invalid payload", "payload", 400);
     }
 
-    const { first_name, last_name, email_id, contact_no, password, role }: usersAttributes =
+    const { first_name, last_name, email_id, contact_no, password, role }: UsersAttributes =
       req.body;
 
     const isEmail: User | null = await userModel.findOne({

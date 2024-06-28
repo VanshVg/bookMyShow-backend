@@ -1,9 +1,11 @@
-export interface modelInterface {
-  User: usersAttributes;
+export interface BasicModelInterface {
+  id: number;
+  deletedAt: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface usersAttributes {
-  id: number;
+export interface UsersAttributes extends BasicModelInterface {
   first_name: string;
   last_name: string;
   email_id: string;
@@ -14,71 +16,73 @@ export interface usersAttributes {
   reset_token: string;
   reset_time: Date | null;
   role: "admin" | "user" | "organizer";
-  deletedAt: Date | null;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
-export interface eventAttributes {
-  id: number;
+export interface EventAttributes extends BasicModelInterface {
   name: string;
   description: string;
   address: string;
   start_time: Date;
   end_time: Date;
-  deletedAt: Date;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
-export interface userEventAttributes {
+export interface UserEventAttributes {
   id: number;
   organizer_id: number;
   event_id: number;
 }
 
-export interface eventTypesAttributes {
-  id: number;
+export interface EventTypesAttributes extends BasicModelInterface {
   type: string;
-  deletedAt: Date;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
-export interface eventSectionAttributes {
-  id: number;
+export interface EventSectionAttributes extends BasicModelInterface {
   name: string;
   event_id: number;
   price: number;
-  deletedAt: Date;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
-export interface moviesAttributes {
-  id: number;
+export interface MoviesAttributes extends BasicModelInterface {
   name: string;
   description: string;
   run_time: string;
   release_date: Date;
-  deletedAt: Date;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
-export interface theatresAttributes {
-  id: number;
+export interface TheatresAttributes extends BasicModelInterface {
   name: string;
   owner_id: string;
   address: string;
   screens: number;
-  deletedAt: Date;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
-export interface theatreMoviesAttributes {
+export interface TheatreMoviesAttributes {
   id: number;
   theatre_id: number;
   movie_id: number;
+}
+
+export interface ScreensAttributes extends BasicModelInterface {
+  name: string;
+  theatre_id: number;
+  seats: number;
+}
+
+export interface ShowsAttributes extends BasicModelInterface {
+  screen_id: number;
+  movie_id: number;
+  start_time: Date;
+  end_time: Date;
+}
+
+export interface SeatsAttributes extends BasicModelInterface {
+  show_id: number;
+  seat_no: string;
+  price: number;
+}
+
+export interface BookingAttributes extends BasicModelInterface {
+  user_id: number;
+  show_or_event_id: number;
+  show_or_event: string;
 }

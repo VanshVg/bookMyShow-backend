@@ -9,6 +9,9 @@ import EventSection from "../database/models/EventSections";
 import Movie from "../database/models/Movie";
 import Theatre from "../database/models/Theatre";
 import TheatreMovie from "../database/models/TheatreMovie";
+import Screen from "../database/models/Screen";
+import Shows from "../database/models/Show";
+import Seat from "../database/models/Seats";
 
 config();
 
@@ -30,13 +33,16 @@ const sequelize: Sequelize = new Sequelize({
 
 const models = {
   User,
+  EventTypes,
   Event,
   UserEvent,
-  EventTypes,
   EventSection,
   Movie,
   Theatre,
   TheatreMovie,
+  Screen,
+  Shows,
+  Seat,
 };
 
 sequelize.addModels(Object.values(models));

@@ -13,14 +13,14 @@ import {
 } from "sequelize-typescript";
 import { CreationOptional, Optional } from "sequelize";
 
-import { usersAttributes } from "../../interfaces/modelInterface";
+import { UsersAttributes } from "../../interfaces/modelInterface";
 import Event from "./Event";
 import UserEvent from "./UserEvent";
 import Theatre from "./Theatre";
 
-interface userCreationAttributes
+interface UserCreationAttributes
   extends Optional<
-    usersAttributes,
+    UsersAttributes,
     "id" | "reset_token" | "reset_time" | "createdAt" | "updatedAt"
   > {}
 
@@ -29,7 +29,7 @@ interface userCreationAttributes
   tableName: "users",
   paranoid: true,
 })
-class User extends Model<usersAttributes, userCreationAttributes> {
+class User extends Model<UsersAttributes, UserCreationAttributes> {
   @PrimaryKey
   @AutoIncrement
   @Column({

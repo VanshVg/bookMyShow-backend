@@ -1,5 +1,5 @@
 import { CreationOptional, Optional } from "sequelize";
-import { eventSectionAttributes } from "../../interfaces/modelInterface";
+import { EventSectionAttributes } from "../../interfaces/modelInterface";
 import {
   AutoIncrement,
   BelongsTo,
@@ -15,14 +15,14 @@ import {
 } from "sequelize-typescript";
 import Event from "./Event";
 
-interface eventSectionCreationAttributes extends Optional<eventSectionAttributes, "id"> {}
+interface EventSectionCreationAttributes extends Optional<EventSectionAttributes, "id"> {}
 
 @Table({
   timestamps: true,
   tableName: "event_sections",
   paranoid: true,
 })
-class EventSection extends Model<eventSectionAttributes, eventSectionCreationAttributes> {
+class EventSection extends Model<EventSectionAttributes, EventSectionCreationAttributes> {
   @PrimaryKey
   @AutoIncrement
   @Column({

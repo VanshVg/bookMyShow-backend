@@ -5,30 +5,40 @@ import { QueryInterface, DataTypes } from "sequelize";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface: QueryInterface, Sequelize: typeof DataTypes) {
-    await queryInterface.createTable("user_events", {
+    await queryInterface.createTable("theatres", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      organizer_id: {
-        type: Sequelize.NUMBER,
+      name: {
+        type: Sequelize.STRING,
+      },
+      owner_id: {
+        type: Sequelize.INTEGER,
         references: {
           model: "users",
           key: "id",
         },
       },
-      event_id: {
-        type: Sequelize.NUMBER,
-        references: {
-          model: "events",
-          key: "id",
-        },
+      address: {
+        type: Sequelize.STRING,
+      },
+      screens: {
+        type: Sequelize.INTEGER,
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
       },
     });
   },
   async down(queryInterface: QueryInterface) {
-    await queryInterface.dropTable("user_events");
+    await queryInterface.dropTable("theatres");
   },
 };
