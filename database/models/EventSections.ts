@@ -8,12 +8,15 @@ import {
   DataType,
   DeletedAt,
   ForeignKey,
+  HasMany,
   Model,
   PrimaryKey,
   Table,
   UpdatedAt,
 } from "sequelize-typescript";
 import Event from "./Event";
+import Booking from "./UserBooking";
+import Seat from "./Seats";
 
 interface EventSectionCreationAttributes extends Optional<EventSectionAttributes, "id"> {}
 
@@ -61,6 +64,24 @@ class EventSection extends Model<EventSectionAttributes, EventSectionCreationAtt
 
   @BelongsTo(() => Event, "event_id")
   declare events: Event;
+
+  @HasMany(() => Seat, {
+    foreignKey: "show_or_section_id",
+    constraints: false,
+    scope: {
+      show_or_section: "section",
+    },
+  })
+  declare seats: Seat[];
+
+  @HasMany(() => Booking, {
+    foreignKey: "show_or_section_id",
+    constraints: false,
+    scope: {
+      show_or_section: "section",
+    },
+  })
+  declare bookings: Booking[];
 }
 
 export default EventSection;

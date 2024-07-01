@@ -16,14 +16,14 @@ module.exports = {
         type: Sequelize.STRING,
       },
       theatre_id: {
-        type: Sequelize.NUMBER,
+        type: Sequelize.INTEGER,
         references: {
           model: "theatres",
           key: "id",
         },
       },
       seats: {
-        type: Sequelize.NUMBER,
+        type: Sequelize.INTEGER,
       },
       deletedAt: {
         allowNull: true,
@@ -32,10 +32,12 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: new Date(),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: new Date(),
       },
     });
   },

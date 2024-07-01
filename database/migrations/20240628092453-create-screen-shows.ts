@@ -13,14 +13,14 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       screen_id: {
-        type: Sequelize.NUMBER,
+        type: Sequelize.INTEGER,
         references: {
           model: "screens",
           key: "id",
         },
       },
       movie_id: {
-        type: Sequelize.NUMBER,
+        type: Sequelize.INTEGER,
         references: {
           model: "movies",
           key: "id",
@@ -32,13 +32,19 @@ module.exports = {
       end_time: {
         type: Sequelize.DATE,
       },
+      deletedAt: {
+        allowNull: true,
+        type: Sequelize.DATE,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: new Date(),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: new Date(),
       },
     });
   },

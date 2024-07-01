@@ -5,28 +5,25 @@ import { QueryInterface, DataTypes } from "sequelize";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface: QueryInterface, Sequelize: typeof DataTypes) {
-    await queryInterface.createTable("theatres", {
+    await queryInterface.createTable("payments", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      name: {
-        type: Sequelize.STRING,
-      },
-      owner_id: {
+      booking_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: "users",
+          model: "user_bookings",
           key: "id",
         },
       },
-      address: {
-        type: Sequelize.STRING,
-      },
-      screens: {
+      total_amount: {
         type: Sequelize.INTEGER,
+      },
+      payment_type: {
+        type: Sequelize.STRING,
       },
       deletedAt: {
         allowNull: true,
@@ -45,6 +42,6 @@ module.exports = {
     });
   },
   async down(queryInterface: QueryInterface) {
-    await queryInterface.dropTable("theatres");
+    await queryInterface.dropTable("payments");
   },
 };

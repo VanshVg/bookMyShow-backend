@@ -1,5 +1,5 @@
 import { CreationOptional, Optional } from "sequelize";
-import { SeatsAttributes } from "../../interfaces/modelInterface";
+import { PaymentAttributes } from "../../interfaces/modelInterface";
 import {
   AutoIncrement,
   BelongsTo,
@@ -7,24 +7,21 @@ import {
   CreatedAt,
   DataType,
   DeletedAt,
-  ForeignKey,
-  HasMany,
   Model,
   PrimaryKey,
   Table,
   UpdatedAt,
 } from "sequelize-typescript";
-import Shows from "./Show";
-import Ticket from "./Ticket";
+import Booking from "./UserBooking";
 
-interface SeatsCreationAttributes extends Optional<SeatsAttributes, "id"> {}
+interface PaymentCreationAttributes extends Optional<PaymentAttributes, "id"> {}
 
 @Table({
-  timestamps: false,
-  tableName: "seats",
+  timestamps: true,
+  tableName: "payments",
   paranoid: true,
 })
-class Seat extends Model<SeatsAttributes, SeatsCreationAttributes> {
+class Payment extends Model<PaymentAttributes, PaymentCreationAttributes> {
   @PrimaryKey
   @AutoIncrement
   @Column({
@@ -33,30 +30,23 @@ class Seat extends Model<SeatsAttributes, SeatsCreationAttributes> {
   })
   declare id: number;
 
-  @ForeignKey(() => Shows)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
-  declare show_or_section_id: number;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  declare show_or_section: string;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  declare seat_no: string;
+  declare booking_id: number;
 
   @Column({
     type: DataType.FLOAT,
     allowNull: false,
   })
-  declare price: number;
+  declare total_amount: number;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  declare payment_type: string;
 
   @DeletedAt
   declare deletedAt: Date | null;
@@ -67,8 +57,8 @@ class Seat extends Model<SeatsAttributes, SeatsCreationAttributes> {
   @UpdatedAt
   declare updatedAt: CreationOptional<Date>;
 
-  @HasMany(() => Ticket, "seat_id")
-  declare tickets: Ticket[];
+  @BelongsTo(() => Booking, "booking_id")
+  declare bookings: Booking;
 }
 
-export default Seat;
+export default Payment;

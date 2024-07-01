@@ -76,13 +76,26 @@ export interface ShowsAttributes extends BasicModelInterface {
 }
 
 export interface SeatsAttributes extends BasicModelInterface {
-  show_id: number;
+  show_or_section_id: number;
+  show_or_section: string;
   seat_no: string;
   price: number;
 }
 
 export interface BookingAttributes extends BasicModelInterface {
   user_id: number;
-  show_or_event_id: number;
-  show_or_event: string;
+  show_or_section_id: number;
+  show_or_section: string;
+  seats: number;
+}
+
+export interface TicketAttributes extends BasicModelInterface {
+  booking_id: number;
+  seat_id: number;
+}
+
+export interface PaymentAttributes extends BasicModelInterface {
+  booking_id: number;
+  total_amount: number;
+  payment_type: string;
 }

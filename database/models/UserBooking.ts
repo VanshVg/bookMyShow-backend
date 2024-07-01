@@ -1,30 +1,28 @@
 import { CreationOptional, Optional } from "sequelize";
-import { SeatsAttributes } from "../../interfaces/modelInterface";
+import { BookingAttributes } from "../../interfaces/modelInterface";
 import {
   AutoIncrement,
-  BelongsTo,
   Column,
   CreatedAt,
   DataType,
   DeletedAt,
-  ForeignKey,
   HasMany,
   Model,
   PrimaryKey,
   Table,
   UpdatedAt,
 } from "sequelize-typescript";
-import Shows from "./Show";
 import Ticket from "./Ticket";
+import Payment from "./Payments";
 
-interface SeatsCreationAttributes extends Optional<SeatsAttributes, "id"> {}
+interface BookingCreationAttributes extends Optional<BookingAttributes, "id"> {}
 
 @Table({
-  timestamps: false,
-  tableName: "seats",
+  timestamps: true,
+  tableName: "user_bookings",
   paranoid: true,
 })
-class Seat extends Model<SeatsAttributes, SeatsCreationAttributes> {
+class Booking extends Model<BookingAttributes, BookingCreationAttributes> {
   @PrimaryKey
   @AutoIncrement
   @Column({
@@ -33,7 +31,12 @@ class Seat extends Model<SeatsAttributes, SeatsCreationAttributes> {
   })
   declare id: number;
 
-  @ForeignKey(() => Shows)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  declare user_id: number;
+
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
@@ -47,16 +50,10 @@ class Seat extends Model<SeatsAttributes, SeatsCreationAttributes> {
   declare show_or_section: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.INTEGER,
     allowNull: false,
   })
-  declare seat_no: string;
-
-  @Column({
-    type: DataType.FLOAT,
-    allowNull: false,
-  })
-  declare price: number;
+  declare seats: number;
 
   @DeletedAt
   declare deletedAt: Date | null;
@@ -67,8 +64,11 @@ class Seat extends Model<SeatsAttributes, SeatsCreationAttributes> {
   @UpdatedAt
   declare updatedAt: CreationOptional<Date>;
 
-  @HasMany(() => Ticket, "seat_id")
+  @HasMany(() => Ticket, "booking_id")
   declare tickets: Ticket[];
+
+  @HasMany(() => Payment, "booking_id")
+  declare payments: Payment[];
 }
 
-export default Seat;
+export default Booking;

@@ -17,6 +17,7 @@ import {
 import Movie from "./Movie";
 import Screen from "./Screen";
 import Seat from "./Seats";
+import Booking from "./UserBooking";
 
 interface ShowsCreationAttributes extends Optional<ShowsAttributes, "id"> {}
 
@@ -75,8 +76,23 @@ class Shows extends Model<ShowsAttributes, ShowsCreationAttributes> {
   @BelongsTo(() => Movie, "movie_id")
   declare movies: Movie;
 
-  @HasMany(() => Seat, "show_id")
+  @HasMany(() => Seat, {
+    foreignKey: "show_or_section_id",
+    constraints: false,
+    scope: {
+      show_or_section: "show",
+    },
+  })
   declare seats: Seat[];
+
+  @HasMany(() => Booking, {
+    foreignKey: "show_or_section_id",
+    constraints: false,
+    scope: {
+      show_or_section: "show",
+    },
+  })
+  declare bookings: Booking[];
 }
 
 export default Shows;
