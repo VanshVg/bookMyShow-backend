@@ -1,10 +1,10 @@
 "use strict";
 
-import { QueryInterface, DataTypes } from "sequelize";
+import { QueryInterface } from "sequelize";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface: QueryInterface, Sequelize: typeof DataTypes) {
+  async up(queryInterface: QueryInterface) {
     /**
      * Add seed commands here.
      *
@@ -15,26 +15,26 @@ module.exports = {
       "events",
       [
         {
-          name: "Culers",
-          description: "This event is for all the culers around the world.",
-          address: "la-masia",
+          name: "Arijit Concert",
+          description: "Join to have music delight with Arijit Singh.",
+          address: "Sunburn Park",
           type_id: 2,
           start_time: new Date("January 22, 2024 14:30:00"),
           end_time: new Date("January 22, 2024 18:00:00"),
         },
         {
-          name: "Fan Park",
-          description: "This is fan park for the match of India vs Pakistan.",
-          address: "Nadiad",
-          type_id: 1,
-          start_time: new Date("June 8, 2024 18:00:00"),
-          end_time: new Date("June 8, 2024 23:45:00"),
+          name: "India vs Australia ODI Wc Final",
+          description: "Come and watch the biggest match of cricket. India vs Australia.",
+          address: "Narendra Modi Stadium",
+          type_id: 3,
+          start_time: new Date("November 19, 2023 14:00:00"),
+          end_time: new Date("November 19, 2023 22:00:00"),
         },
         {
-          name: "Standup Comedy",
+          name: "The Bassi Show",
           description: "This is a Stand Comedy event.",
-          address: "Signal Park",
-          type_id: 3,
+          address: "Sun burn park",
+          type_id: 1,
           start_time: new Date("May 5, 2024 18:30:00"),
           end_time: new Date("May 5, 2024 20:30:00"),
         },
@@ -48,7 +48,7 @@ module.exports = {
      * Add commands to revert seed here.
      *
      * Example:
-     * await queryInterface.bulkDelete('People', null, {});
      */
+    await queryInterface.bulkDelete("events", {});
   },
 };

@@ -1,6 +1,6 @@
 "use strict";
 
-import { QueryInterface, DataTypes } from "sequelize";
+import { QueryInterface } from "sequelize";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -73,7 +73,7 @@ module.exports = {
     );
   },
 
-  async down(queryInterface: QueryInterface, Sequelize: typeof DataTypes) {
+  async down(queryInterface: QueryInterface) {
     await queryInterface.bulkDelete("Users", {});
   },
 };

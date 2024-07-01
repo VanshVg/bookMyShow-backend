@@ -20,7 +20,8 @@ import UserEvent from "./UserEvent";
 import EventTypes from "./EventType";
 import EventSection from "./EventSections";
 
-interface EventCreationAttributes extends Optional<EventAttributes, "id"> {}
+interface EventCreationAttributes
+  extends Optional<EventAttributes, "id" | "createdAt" | "updatedAt"> {}
 
 @Table({
   timestamps: true,
@@ -86,7 +87,7 @@ class Event extends Model<EventAttributes, EventCreationAttributes> {
   declare eventTypes: EventTypes;
 
   @BelongsToMany(() => User, () => UserEvent)
-  declare users: User[];
+  users!: User[];
 
   @HasMany(() => EventSection, "event_id")
   declare eventSections: EventSection[];

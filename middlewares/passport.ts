@@ -32,7 +32,7 @@ export const applyPassportStrategy = () => {
       new Strategy(options, async (jwt_payload: JwtPayload, done: VerifiedCallback) => {
         const isUser: User | null = await userModel.findOne({
           where: {
-            [Op.and]: [{ email_id: jwt_payload.data.email }, { deletedAt: { [Op.not]: null } }],
+            [Op.and]: [{ email_id: jwt_payload.data.email }, { deletedAt: null }],
           },
         });
         if (isUser === null) {

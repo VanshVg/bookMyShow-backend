@@ -1,6 +1,7 @@
 import { CreationOptional, Optional } from "sequelize";
 import {
   AutoIncrement,
+  BelongsTo,
   Column,
   CreatedAt,
   DataType,
@@ -53,6 +54,12 @@ class UserEvent extends Model<UserEventAttributes, UserEventCreationAttributes> 
 
   @UpdatedAt
   declare updatedAt: CreationOptional<Date>;
+
+  @BelongsTo(() => User, "organizer_id")
+  declare users: User;
+
+  @BelongsTo(() => Event, "event_id")
+  declare events: Event;
 }
 
 export default UserEvent;

@@ -12,6 +12,9 @@ import TheatreMovie from "../database/models/TheatreMovie";
 import Screen from "../database/models/Screen";
 import Shows from "../database/models/Show";
 import Seat from "../database/models/Seats";
+import Booking from "../database/models/UserBooking";
+import Ticket from "../database/models/Ticket";
+import Payment from "../database/models/Payments";
 
 config();
 
@@ -43,6 +46,9 @@ const models = {
   Screen,
   Shows,
   Seat,
+  Booking,
+  Ticket,
+  Payment,
 };
 
 sequelize.addModels(Object.values(models));

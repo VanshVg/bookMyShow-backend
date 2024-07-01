@@ -21,6 +21,7 @@ export interface UsersAttributes extends BasicModelInterface {
 export interface EventAttributes extends BasicModelInterface {
   name: string;
   description: string;
+  type_id: number;
   address: string;
   start_time: Date;
   end_time: Date;

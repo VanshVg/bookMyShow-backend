@@ -152,6 +152,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
     res.cookie("token", token, { maxAge: 1036800000, httpOnly: true });
     return sendResponse(res, "", "Login Successful", "success", 200);
   } catch (error) {
+    console.log(error);
     return sendResponse(res, "", "Something went wrong", "server", 500);
   }
 };
