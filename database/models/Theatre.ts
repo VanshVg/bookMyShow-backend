@@ -19,11 +19,12 @@ import Movie from "./Movie";
 import TheatreMovie from "./TheatreMovie";
 import Screen from "./Screen";
 
-interface TheatresCreationAttributes extends Optional<TheatresAttributes, "id"> {}
+interface TheatresCreationAttributes
+  extends Optional<TheatresAttributes, "id" | "createdAt" | "updatedAt" | "screens"> {}
 
 @Table({
   timestamps: false,
-  tableName: "theatre",
+  tableName: "theatres",
   paranoid: true,
 })
 class Theatre extends Model<TheatresAttributes, TheatresCreationAttributes> {
@@ -49,7 +50,7 @@ class Theatre extends Model<TheatresAttributes, TheatresCreationAttributes> {
 
   @Column({
     type: DataType.INTEGER,
-    allowNull: false,
+    allowNull: true,
   })
   declare screens: number;
 
