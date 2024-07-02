@@ -109,9 +109,6 @@ class User extends Model<UsersAttributes, UserCreationAttributes> {
 
   @BelongsToMany(() => Event, () => UserEvent)
   declare events: Event[];
-
-  @HasMany(() => Theatre, "owner_id")
-  declare theatres: Theatre[];
 }
 
 export default User;

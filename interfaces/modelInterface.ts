@@ -52,7 +52,6 @@ export interface MoviesAttributes extends BasicModelInterface {
 
 export interface TheatresAttributes extends BasicModelInterface {
   name: string;
-  owner_id: string;
   address: string;
   screens: number;
 }

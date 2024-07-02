@@ -13,7 +13,8 @@ module.exports = {
           last_name: "Gandhi",
           email_id: "vansh.vg18@gmail.com",
           contact_no: 9909530136,
-          password: "Vansh@123",
+          password:
+            "$argon2id$v=19$m=65536,t=3,p=4$HoxkEuZbXohEFuPamcByKg$URxxZ/gwQd8AtOwiibgr7bSAONCi9NHIHk3LiHppIkk",
           is_active: 1,
           verification_token: "Token1",
           role: "admin",
@@ -23,7 +24,8 @@ module.exports = {
           last_name: "Messi",
           email_id: "lm10@gmail.com",
           contact_no: 9281728201,
-          password: "Messi@123",
+          password:
+            "$argon2id$v=19$m=65536,t=3,p=4$0TD8l5GF74w0wmXxXokhcQ$Mx+uUC5vZfNb6oP0+vvlBoch81Y9KKqodSa++oi5yJc",
           is_active: 1,
           verification_token: "Token2",
           role: "admin",
@@ -33,7 +35,8 @@ module.exports = {
           last_name: "Gonzalez",
           email_id: "Pedri8@gmail.com",
           contact_no: 9281728202,
-          password: "Pedri@123",
+          password:
+            "$argon2id$v=19$m=65536,t=3,p=4$xaudNiExKYvrco5xodityQ$lYU6u0pDA+T4TFf9UqOyxav0Nayfo5ZyQhmx2eia3+w",
           is_active: 1,
           verification_token: "Token3",
           role: "organizer",
@@ -43,7 +46,8 @@ module.exports = {
           last_name: "Yamal",
           email_id: "Lamine@gmail.com",
           contact_no: 9281728216,
-          password: "Lamine@123",
+          password:
+            "$argon2id$v=19$m=65536,t=3,p=4$vbBbKbYT15paos5QxhPnig$1EfQVlsyN5iEbp5Wf0rQzRAP8jYxVQ3M9orni4816zI",
           is_active: 1,
           verification_token: "Token4",
           role: "user",
@@ -53,7 +57,8 @@ module.exports = {
           last_name: "Gavi",
           email_id: "gavi@gmail.com",
           contact_no: 9281728233,
-          password: "Gavi@123",
+          password:
+            "$argon2id$v=19$m=65536,t=3,p=4$wvtkb92wIfkrqr0LTsMC4g$Pd4d1GBgY896j7J1FT7XqjPrYldUFZrZZ4D92X/5YOQ",
           is_active: 1,
           verification_token: "Token5",
           role: "organizer",
@@ -63,7 +68,8 @@ module.exports = {
           last_name: "Cubarasi",
           email_id: "cubarasi@gmail.com",
           contact_no: 9281777233,
-          password: "Cubarasi@123",
+          password:
+            "$argon2id$v=19$m=65536,t=3,p=4$Yb6Ey5hy4MVnazdQi0CXPA$eOBZFpFsbji6SzDqqkigu0hpevq/3fiy5Ri6CcDdSr0",
           is_active: 1,
           verification_token: "Token5",
           role: "user",

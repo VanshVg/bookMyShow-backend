@@ -6,19 +6,27 @@ import { QueryInterface } from "sequelize";
 module.exports = {
   async up(queryInterface: QueryInterface) {
     await queryInterface.bulkInsert(
-      "event_types",
+      "user_events",
       [
         {
-          type: "Standup Comedy",
+          organizer_id: 1,
+          event_id: 1,
         },
         {
-          type: "Music Concert",
+          organizer_id: 1,
+          event_id: 2,
         },
         {
-          type: "Sports",
+          organizer_id: 3,
+          event_id: 3,
         },
         {
-          type: "Drama",
+          organizer_id: 6,
+          event_id: 4,
+        },
+        {
+          organizer_id: 3,
+          event_id: 4,
         },
       ],
       {}
@@ -26,8 +34,6 @@ module.exports = {
   },
 
   async down(queryInterface: QueryInterface) {
-    await queryInterface.bulkDelete("event_types", {});
+    await queryInterface.bulkDelete("user_events", {});
   },
 };
-
-20240701082335;

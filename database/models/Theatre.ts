@@ -15,7 +15,6 @@ import {
 } from "sequelize-typescript";
 
 import { TheatresAttributes } from "../../interfaces/modelInterface";
-import User from "./User";
 import Movie from "./Movie";
 import TheatreMovie from "./TheatreMovie";
 import Screen from "./Screen";
@@ -43,12 +42,6 @@ class Theatre extends Model<TheatresAttributes, TheatresCreationAttributes> {
   declare name: string;
 
   @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
-  declare owner_id: number;
-
-  @Column({
     type: DataType.STRING,
     allowNull: false,
   })
@@ -68,9 +61,6 @@ class Theatre extends Model<TheatresAttributes, TheatresCreationAttributes> {
 
   @UpdatedAt
   declare updatedAt: CreationOptional<Date>;
-
-  @BelongsTo(() => User, "owner_id")
-  declare users: User;
 
   @BelongsToMany(() => Movie, () => TheatreMovie)
   declare movies: Movie[];
