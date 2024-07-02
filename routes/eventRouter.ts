@@ -6,11 +6,15 @@ import passport from "passport";
 
 const router: Router = express.Router();
 
-router.post(
-  "/add",
-  passport.authenticate("jwt", { session: false, failureRedirect: "/" }),
-  addEventValidator,
-  eventController.addEvent
-);
+const auth = passport.authenticate("jwt", { session: false, failureRedirect: "/" });
+
+router.post("/add", auth, addEventValidator, eventController.addEvent);
+router.get("/getUserEvent/:userId", auth, eventController.getUserEvents);
+router.post("/addOrganizers/:eventId", auth, eventController.addOrganizers);
+router.get("/getAll", auth, eventController.getAllEvents);
+router.get("/getOne/:eventId", auth, eventController.getOneEvent);
+router.get("/getAll/:typeId", auth, eventController.getEventsByType);
+router.put("/update/:eventId", auth, eventController.updateEvent);
+router.delete("/remove/:eventId", auth, eventController.removeEvent);
 
 export default router;
