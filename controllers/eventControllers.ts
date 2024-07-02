@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
+import { Op } from "sequelize";
 
 import db from "../config/dbConnect";
 import { sendResponse } from "../helpers/response";
 import { EventAttributes, UsersAttributes } from "../interfaces/modelInterface";
 import Event from "../database/models/Event";
 import User from "../database/models/User";
-import { Op } from "sequelize";
 
 const eventModel = db.Event;
 const userModel = db.User;
